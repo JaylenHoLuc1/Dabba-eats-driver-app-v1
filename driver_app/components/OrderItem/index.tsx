@@ -12,7 +12,7 @@ interface OrderItemProps {
 }
 const OrderItem : React.FC<OrderItemProps> = ({order}) => {
   return (
-    <div>
+    <>
 
       <ThemedView style={styles.orderOuter}>
         <ThemedView style={styles.orderInner}>
@@ -47,7 +47,7 @@ const OrderItem : React.FC<OrderItemProps> = ({order}) => {
           to open developer tools.
         </ThemedText>
       </ThemedView> */}
-    </div>
+    </>
   );
 }
 
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     borderWidth : 3,
     borderRadius : 14,
     margin: 10,
+
 
   }
   ,

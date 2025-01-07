@@ -1,5 +1,5 @@
+import { useRef } from "react";
 import { Image, StyleSheet, Platform, View } from 'react-native';
-
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -9,26 +9,25 @@ import { Entypo } from '@expo/vector-icons';
 import OrderItem from '../../components/OrderItem';
 import { Order } from '../types/types';
 import { FlatList } from 'react-native-gesture-handler';
+import OrdersScreen from "@/screens/OrderScreen";
+import OrderDelivery from "@/screens/OrderDelivery";
 //dummy data format, could be used in production with some minor tweaks
-export default function HomeScreen() {
+export default function HomeApp() {
   return (
-   
-      <ParallaxScrollView
-        headerBackgroundColor={{ light: '#D4C2B4', dark: '#C2A9A1' }}
-        headerImage={
-          <Image
-            source={require('@/assets/images/dabba.png')}
-            style={styles.dabbaLogo}
-          />
-        }>
-        <ThemedView >
-            <ThemedText type="title">Driver app</ThemedText>
-            <HelloWave />
-            <FlatList data={orders} renderItem={({item}) => <OrderItem order={item}/>}/>
-
-        </ThemedView>
-      </ParallaxScrollView>
-
+    // <ParallaxScrollView
+    //   headerBackgroundColor={{ light: '#D4C2B4', dark: '#C2A9A1' }}
+    //   headerImage={
+    //     <Image
+    //       source={require('@/assets/images/dabba.png')}
+    //       style={styles.dabbaLogo}
+    //     />
+    // }>
+    <View style={styles.Container}>
+      <ThemedText type="title">Driver app</ThemedText> <HelloWave />
+      {/* <OrdersScreen/> */}
+      <OrderDelivery />
+    </View>
+    
   );
 }
 
@@ -45,4 +44,8 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  Container : {
+    backgroundColor: '#C2A9A1'
+
+  }
 });
