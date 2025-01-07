@@ -6,10 +6,9 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import orders from '../../assets/data/orders.json';
 import { Entypo } from '@expo/vector-icons';
-import OrderItem from '../components/OrderItem';
+import OrderItem from '../../components/OrderItem';
 import { Order } from '../types/types';
 import { FlatList } from 'react-native-gesture-handler';
-const order : Order = orders[1]
 //dummy data format, could be used in production with some minor tweaks
 export default function HomeScreen() {
   return (

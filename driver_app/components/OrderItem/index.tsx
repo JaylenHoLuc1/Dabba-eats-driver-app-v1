@@ -5,7 +5,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Entypo } from '@expo/vector-icons';
-import { Order } from '../../types/types';
+import { Order } from '../../app/types/types';
 //dummy data format, could be used in production with some minor tweaks
 interface OrderItemProps {
   order: Order; // This ensures the `order` prop is typed correctly
