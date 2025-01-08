@@ -3,7 +3,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useMemo, useRef } from 'react';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Fontisto } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
 import orders from '../../assets/data/orders.json';
 
@@ -30,13 +30,15 @@ const OrderDelivery = () => {
                     <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>5 Km</ThemedText>   
                 </View>
                 <View style={styles.info} >
-                    <View>
-                        <ThemedText style={styles.titles}>{order.Restaurant.name}</ThemedText>
-                        <ThemedText style={styles.details}>{order.Restaurant.address}</ThemedText>
+                <ThemedText style={styles.titles}>{order.Restaurant.name}</ThemedText>
+                    <View style={{flexDirection : 'row', marginBottom: 10,}}>
+                        <Fontisto name="shopping-store" size={22} color='#C2A9A1' />
+                        <ThemedText style={styles.details}>{order.Restaurant.address}</ThemedText>                    
+                        
+                    </View>
+                    <View style={{flexDirection : 'row',}}>
+                        <Fontisto name="map-marker-alt" size={22} color='#C2A9A1' />
                         <ThemedText style={styles.details}>{order.User.address}</ThemedText>
-
-                        
-                        
                     </View>
                     <View style={styles.foods}>
                         <ThemedText style={styles.details} >dummy food</ThemedText>
@@ -54,18 +56,19 @@ const styles = StyleSheet.create({
   
     },
     details : {
-        color : 'black', fontSize : 15, letterSpacing : 1
+        color : 'black', fontSize : 15, letterSpacing : 1, marginLeft : 15
+
     },
     titles : {
         color : 'black', fontSize : 20, letterSpacing : 1, 
-        fontWeight: '500'
+        fontWeight: '500', paddingVertical: 20
     },
 
     foods : {
         borderTopWidth: 1, borderColor: '#C2A9A1'
     },
     info : {
-        paddingHorizontal : 20
+        paddingHorizontal : 20,
     }
     
   });
