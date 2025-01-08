@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Image, StyleSheet, Platform, View } from 'react-native';
+import { Image, StyleSheet, Platform, View, StatusBar } from 'react-native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,7 +11,7 @@ import { Order } from '../types/types';
 import { FlatList } from 'react-native-gesture-handler';
 import OrdersScreen from "@/screens/OrderScreen";
 import OrderDelivery from "@/screens/OrderDelivery";
-//dummy data format, could be used in production with some minor tweaks
+
 export default function HomeApp() {
   return (
     // <ParallaxScrollView
@@ -22,11 +22,14 @@ export default function HomeApp() {
     //       style={styles.dabbaLogo}
     //     />
     // }>
-    <View style={styles.Container}>
-      <ThemedText type="title">Driver app</ThemedText> <HelloWave />
-      {/* <OrdersScreen/> */}
-      <OrderDelivery />
-    </View>
+    
+      <View style={styles.Container}>
+        <ThemedText type="title">Driver app</ThemedText> <HelloWave />
+        {/* <OrdersScreen/> */}
+        <OrderDelivery />
+        <StatusBar/>
+      </View>
+
     
   );
 }
