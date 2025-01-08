@@ -9,8 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 import OrderItem from '../../components/OrderItem';
 import { Order } from '../types/types';
 import { FlatList } from 'react-native-gesture-handler';
-import OrdersScreen from "@/screens/OrderScreen";
-import OrderDelivery from "@/screens/OrderDelivery";
+import Navigation from "@/components/Navigation";
 
 export default function HomeApp() {
   return (
@@ -25,8 +24,7 @@ export default function HomeApp() {
     
       <View style={styles.Container}>
         <ThemedText type="title">Driver app</ThemedText> <HelloWave />
-        {/* <OrdersScreen/> */}
-        <OrderDelivery />
+        <Navigation/>
         <StatusBar/>
       </View>
 

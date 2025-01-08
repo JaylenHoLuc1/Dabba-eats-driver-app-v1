@@ -31,5 +31,10 @@ export type User = {
     Restaurant: Restaurant;
     User: User;
   };
+
+  export type RootStackParamList = {
+    Home: undefined; // Home screen has no params
+    OrderDelivery: { id: string }; // OrderDelivery expects an 'id' parameter of type string
+  };
   
   export type OrderArray = Order[];

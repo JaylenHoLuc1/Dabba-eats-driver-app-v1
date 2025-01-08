@@ -1,18 +1,23 @@
-import { Image, StyleSheet, Platform, View } from 'react-native';
-
+import { Image, StyleSheet, Platform, View, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Entypo } from '@expo/vector-icons';
-import { Order } from '../../app/types/types';
+import { Order, RootStackParamList } from '../../app/types/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 //dummy data format, could be used in production with some minor tweaks
 interface OrderItemProps {
   order: Order; // This ensures the `order` prop is typed correctly
 }
 const OrderItem : React.FC<OrderItemProps> = ({order}) => {
+  //const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
-    <>
+    <Pressable
+    onPress={() => navigation.navigate('OrderDelivery', {id : order.id})}
+    >
 
       <ThemedView style={styles.orderOuter}>
         <ThemedView style={styles.orderInner}>
@@ -47,7 +52,7 @@ const OrderItem : React.FC<OrderItemProps> = ({order}) => {
           to open developer tools.
         </ThemedText>
       </ThemedView> */}
-    </>
+    </Pressable>
   );
 }
 
