@@ -3,12 +3,13 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { FontAwesome5, Fontisto } from '@expo/vector-icons';
+import { Entypo, FontAwesome5, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
 import orders from '../../assets/data/orders.json';
 import styles from './styles';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
 const order = orders[0]
 type coordz = {
 latitude : number,
@@ -55,6 +56,13 @@ const OrderDelivery = () => {
                     longitudeDelta: 0.07
                 }}
             >
+                <MapViewDirections 
+                    origin={driverLocation}
+                    destination={{latitude : order.User.lat, longitude : order.User.lng}}
+                    strokeWidth={10}
+                    strokeColor='#C2A9A1'
+                    apikey={process.env.EXPO_PUBLIC_REACT_APP_GOOGLE_API_KEY as string}
+                />
                 <Marker
                     coordinate={{
                         latitude: order.Restaurant.lat,
@@ -64,9 +72,11 @@ const OrderDelivery = () => {
                     title={order.Restaurant.name}
                     description={order.Restaurant.address}
                 >
-
+                    <View style={{backgroundColor: 'green', padding : 5, borderRadius : 20}}>
+                        <Entypo name="shop" size={24} color="white"></Entypo>
+                    </View>
                 </Marker>
-                {/* <Marker
+                <Marker
                     coordinate={{
                         latitude: order.User.lat,
                         longitude : order.User.lng,
@@ -74,7 +84,11 @@ const OrderDelivery = () => {
                     }}
                     title={order.User.name}
                     description={order.User.address}
-                > */}
+                >
+                    <View style={{backgroundColor: 'green', padding : 5, borderRadius : 20}}>
+                        <MaterialIcons name='restaurant' size={30} color='white'></MaterialIcons>
+                    </View>
+                </Marker>
             </MapView>
             <BottomSheet 
                 handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}} 
