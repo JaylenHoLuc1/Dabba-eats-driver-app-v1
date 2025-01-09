@@ -18,7 +18,7 @@ const OrderDelivery = () => {
             <BottomSheet 
                 handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}} 
                 ref={bottomSheetRef} 
-                snapPoints={["20%", "90%"]} 
+                snapPoints={snapPoints} 
             >
                 <View style={{marginTop: 10, alignSelf: 'center',flexDirection: 'row', alignItems: 'center', justifyContent : 'center'}}>
                     <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>14 min</ThemedText>

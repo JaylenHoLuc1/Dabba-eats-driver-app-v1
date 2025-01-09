@@ -2,6 +2,10 @@
   "expo": {
     "name": "driver_app",
     "slug": "driver_app",
+    "extra": {
+      "REACT_APP_GOOGLE_API_KEY": "process.env.REACT_APP_GOOGLE_API_KEY",  
+      "BASE_URL": "process.env.BASE_URL" 
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

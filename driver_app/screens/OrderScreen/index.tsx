@@ -19,7 +19,6 @@ import React from 'react';
 //dummy data format, could be used in production with some minor tweaks
 export default function OrdersScreen() {
     const bottomSheetRef = useRef<BottomSheet>(null);
-
     const snapPoints = useMemo(() => ["12%", "95%"], [])
     const isWeb = Platform.OS === 'web';
     const center = {
@@ -30,8 +29,8 @@ export default function OrdersScreen() {
    
         <ThemedView style={{backgroundColor : '#C2A9A1'}} >
           
-            {isWeb? (
-              <LoadScript googleMapsApiKey={process.env.GOOGLE_API_KEY as string}>
+ 
+              <LoadScript googleMapsApiKey={process.env.EXPO_PUBLIC_REACT_APP_GOOGLE_API_KEY as string}>
                 <GoogleMap
                   mapContainerStyle={{
                     height : Dimensions.get('window').height, 
@@ -41,23 +40,10 @@ export default function OrdersScreen() {
                   zoom={10}
                 ></GoogleMap>
              </LoadScript>
-            ) : (<></>)
-            //  MapView && (
-            //     <React.Fragment>
-            //       <MapView 
-            
-            //         style={{
-            //           height : Dimensions.get('window').height, 
-            //           width: Dimensions.get('window').width
-            //         }}
 
-            //     />
-            // </React.Fragment>
-            // )
-            }
 
           
-            <BottomSheet  handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}}  ref={bottomSheetRef} snapPoints={["20%", "90%"]}>
+            <BottomSheet  handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}}  ref={bottomSheetRef} snapPoints={snapPoints}>
                 <ThemedView style={{flex : 1, alignItems : 'center'}}>
                   <ThemedText style={{fontSize: 20, fontWeight : 600, paddingBottom : 5}}>You are Online!</ThemedText>
                     <ThemedText>Available Orders: {orders.length}</ThemedText>
