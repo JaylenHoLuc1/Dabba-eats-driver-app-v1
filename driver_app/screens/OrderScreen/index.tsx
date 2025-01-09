@@ -77,7 +77,7 @@ export default function OrdersScreen() {
                   longitude: order.Restaurant.lng
                 }}
             >
-              <View style={{backgroundColor: 'green', padding : 5, borderRadius : 20}}>
+              <View style={{backgroundColor: '#C2A9A1', padding : 5, borderRadius : 20}}>
                 <Entypo name="shop" size={24} color="white"></Entypo>
               </View>
               

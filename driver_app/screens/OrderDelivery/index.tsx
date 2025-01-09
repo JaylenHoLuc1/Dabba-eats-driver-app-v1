@@ -17,6 +17,8 @@ longitude : number
 }
 const OrderDelivery = () => {
     const [driverLocation, setDriverLocation] = useState<coordz|null>(null);
+    const [totalMin, setTotalMin] = useState(0);
+    const [totalMiles, setMiles] = useState(0);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ["12%", "95%"], [])
     const {width, height} = useWindowDimensions();
@@ -34,6 +36,21 @@ const OrderDelivery = () => {
                 longitude: location.coords.longitude
             });
         })();
+
+        const foregroundSubscription = Location.watchPositionAsync({
+            accuracy : Location.Accuracy.High,
+            distanceInterval: 10
+        }, (updatedLocation) => {
+            setDriverLocation({
+                latitude : updatedLocation.coords.latitude,
+                longitude: updatedLocation.coords.longitude
+            })
+        })
+        //this may be a problem with updating the nav stroke
+        return () => {
+            foregroundSubscription;
+          };
+        //return foregroundSubscription;
     }, [])
 
     if (!driverLocation){
@@ -59,9 +76,14 @@ const OrderDelivery = () => {
                 <MapViewDirections 
                     origin={driverLocation}
                     destination={{latitude : order.User.lat, longitude : order.User.lng}}
-                    strokeWidth={10}
+                    strokeWidth={5}
                     strokeColor='#C2A9A1'
                     apikey={process.env.EXPO_PUBLIC_REACT_APP_GOOGLE_API_KEY as string}
+                    waypoints={[{latitude : order.Restaurant.lat, longitude : order.Restaurant.lng}]}
+                    onReady={(result) => {
+                        setTotalMin(result.duration );
+                        setMiles(result.distance * 0.621371)
+                    }}
                 />
                 <Marker
                     coordinate={{
@@ -72,7 +94,7 @@ const OrderDelivery = () => {
                     title={order.Restaurant.name}
                     description={order.Restaurant.address}
                 >
-                    <View style={{backgroundColor: 'green', padding : 5, borderRadius : 20}}>
+                    <View style={{backgroundColor: '#C2A9A1', padding : 5, borderRadius : 20}}>
                         <Entypo name="shop" size={24} color="white"></Entypo>
                     </View>
                 </Marker>
@@ -85,7 +107,7 @@ const OrderDelivery = () => {
                     title={order.User.name}
                     description={order.User.address}
                 >
-                    <View style={{backgroundColor: 'green', padding : 5, borderRadius : 20}}>
+                    <View style={{backgroundColor: '#C2A9A1', padding : 5, borderRadius : 20}}>
                         <MaterialIcons name='restaurant' size={30} color='white'></MaterialIcons>
                     </View>
                 </Marker>
@@ -96,14 +118,14 @@ const OrderDelivery = () => {
                 snapPoints={snapPoints} 
             >
                 <View style={{marginTop: 10, alignSelf: 'center',flexDirection: 'row', alignItems: 'center', justifyContent : 'center'}}>
-                    <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>14 min</ThemedText>
+                    <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>{totalMin.toFixed(0)} min</ThemedText>
                     <FontAwesome5
                         name="shopping-bag"
                         size={30}
                         color = "#C2A9A1"
                         style={{marginHorizontal: 10}}
                     />
-                    <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>5 Km</ThemedText>   
+                    <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>{totalMiles.toFixed(1)} Miles</ThemedText>   
                 </View>
                 <View style={styles.info} >
                     <ThemedText style={styles.titles}>{order.Restaurant.name}</ThemedText>
