@@ -60,14 +60,7 @@ export default function OrdersScreen() {
                   center={markerPosition}
                   zoom={10}
                    
-                >{<Marker position={markerPosition} icon={{
-                  path: google.maps.SymbolPath.CIRCLE, // Customize the marker icon
-                  scale: 10,
-                  fillColor: 'blue',
-                  fillOpacity: 0.8,
-                  strokeColor: 'white',
-                  strokeWeight: 2
-                }}/>}</GoogleMap>
+                >{<Marker position={markerPosition}/>}</GoogleMap>
              </LoadScript>
 
 
