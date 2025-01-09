@@ -10,6 +10,7 @@ import OrderItem from '../../components/OrderItem';
 import { Order } from '../types/types';
 import { FlatList } from 'react-native-gesture-handler';
 import Navigation from "@/components/Navigation";
+import OrdersScreen from "@/screens/OrderScreen";
 
 export default function HomeApp() {
   return (
@@ -23,9 +24,8 @@ export default function HomeApp() {
     // }>
     
       <View style={styles.Container}>
-        <ThemedText type="title">Driver app</ThemedText> <HelloWave />
+        <ThemedText type="title">Driver app</ThemedText>
         <Navigation/>
-        <StatusBar/>
       </View>
 
     
@@ -46,7 +46,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   Container : {
-    backgroundColor: '#C2A9A1'
+    backgroundColor: '#C2A9A1',
+    flex : 1,
+    justifyContent: 'center'
 
   }
 });

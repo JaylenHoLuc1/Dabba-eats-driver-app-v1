@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   orderOuter: {
     gap: 8,
     marginBottom: 8,
+    backgroundColor: 'white'
     
   },
   orderInner : {
