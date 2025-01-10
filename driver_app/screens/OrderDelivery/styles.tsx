@@ -16,7 +16,7 @@ export default  StyleSheet.create({
     },
 
     foods : {
-        borderTopWidth: 1, borderColor: '#C2A9A1', paddingTop: 20
+        borderTopWidth: 1, borderColor: 'black', paddingTop: 20
     },
     info : {
         paddingHorizontal : 20,

@@ -14,7 +14,6 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import MapView, { Marker } from 'react-native-maps';
 //import { GoogleMap, LoadScript, Marker,useLoadScript } from '@react-google-maps/api';
 import { Dimensions } from 'react-native';
-
 //dummy data format, could be used in production with some minor tweaks
 export default function OrdersScreen() {
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -86,7 +85,13 @@ export default function OrdersScreen() {
 
 
           </MapView>
-            <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+            <BottomSheet    
+              backgroundStyle={{
+                backgroundColor: '#C2A9A1'
+              }} 
+              ref={bottomSheetRef} 
+              snapPoints={snapPoints}
+            >
                 <View style={{ flex : 1,alignItems : 'center'}}>
                   <ThemedText style={{color : 'black', fontSize: 20, fontWeight : 600, paddingBottom : 5}}>You are Online!</ThemedText>
                     <ThemedText style={{color : 'black'}}>Available Orders: {orders.length}</ThemedText>

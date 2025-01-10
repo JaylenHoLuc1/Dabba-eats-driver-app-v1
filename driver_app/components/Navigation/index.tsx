@@ -1,10 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OrdersScreen from "@/screens/OrderScreen";
 import OrderDelivery from "@/screens/OrderDelivery";
+import { RootStackParamList } from "@/app/types/types";
 
 
-const Stack = createNativeStackNavigator();
 
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigation = () => {
 return (    
     <Stack.Navigator screenOptions={{headerShown : false}}>

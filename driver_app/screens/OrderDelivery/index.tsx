@@ -12,11 +12,8 @@ import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import { Order } from '@/app/types/types';
 import { useNavigation } from 'expo-router';
-const order = orders[0]
-type coordz = {
-latitude : number,
-longitude : number
-}
+import { RootStackParamList, coordz } from '../../app/types/types';
+import { RouteProp } from '@react-navigation/native';
 
 //order status enum
 enum ORDER_STATUS {
@@ -25,7 +22,10 @@ enum ORDER_STATUS {
     PICKED_UP = "PICKED_UP"
 
 }
-const OrderDelivery = () => {
+type OrderDeliveryScreenRouteProp = RouteProp<RootStackParamList, 'OrderDelivery'>;
+
+const OrderDelivery = ({ route }: { route: OrderDeliveryScreenRouteProp }) => {
+    const order  = route.params.order;
     const mapRef = useRef<MapView | null>(null);
     const [driverLocation, setDriverLocation] = useState<coordz|null>(null);
     const [totalMin, setTotalMin] = useState(0);
@@ -183,15 +183,21 @@ const OrderDelivery = () => {
                     </View>
                 </Marker>
             </MapView>
-            {/* {deliveryStatus ===  ORDER_STATUS.READY_FOR_PICKUP } */}
-            <Ionicons
-                onPress={() => navigation.goBack()}
-                name="arrow-back-circle"
-                size={45}
-                color = 'black'
-                style={{top : 30, left : 0, position: 'absolute'}}
-            ></Ionicons>
+            {deliveryStatus ===  ORDER_STATUS.READY_FOR_PICKUP? 
+                <Ionicons
+                    onPress={() => navigation.goBack()}
+                    name="arrow-back-circle"
+                    size={45}
+                    color = '#C2A9A1'
+                    style={{top : 40, left : 5, position: 'absolute'}}
+                ></Ionicons> : null
+        
+            }
+
             <BottomSheet 
+                backgroundStyle={{
+                    backgroundColor: '#C2A9A1'
+                }}
                 handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}} 
                 ref={bottomSheetRef} 
                 snapPoints={snapPoints} 
@@ -201,7 +207,7 @@ const OrderDelivery = () => {
                     <FontAwesome5
                         name="shopping-bag"
                         size={30}
-                        color = "#C2A9A1"
+                        color = "black"
                         style={{marginHorizontal: 10}}
                     />
                     <ThemedText style={{color : 'black', fontSize : 25, letterSpacing : 1}}>{totalMiles.toFixed(1)} Miles</ThemedText>   
@@ -209,12 +215,13 @@ const OrderDelivery = () => {
                 <View style={styles.info} >
                     <ThemedText style={styles.titles}>{order.Restaurant.name}</ThemedText>
                     <View style={{flexDirection : 'row', marginBottom: 10,}}>
-                        <Fontisto name="shopping-store" size={22} color='#C2A9A1' />
+                        <Fontisto name="shopping-store" size={22} color='black' />
                         <ThemedText style={styles.details}>{order.Restaurant.address}</ThemedText>                    
                         
                     </View>
                     <View style={{flexDirection : 'row',}}>
-                        <Fontisto name="map-marker-alt" size={22} color='#C2A9A1' />
+                        <Fontisto name='person' size={22} color='black' />
+                        <Fontisto name="map-marker-alt" size={22} color='black' />
                         <ThemedText style={styles.details}>{order.User.address}</ThemedText>
                     </View>
                     <View style={styles.foods}>
@@ -222,7 +229,7 @@ const OrderDelivery = () => {
                     </View>
                 </View>
                     <View style={{ borderRadius: 15 , backgroundColor: "#C2A9A1",marginBottom : 45, marginTop: 'auto', marginVertical: 20, marginHorizontal: 10}}>
-                        <Pressable style={{borderRadius: 15, backgroundColor: isNotPressable()? 'grey' : "#C2A9A1"}}onPress={onPress} disabled={isNotPressable()}>
+                        <Pressable style={{borderRadius: 15, backgroundColor: isNotPressable()? 'grey' : "black"}}onPress={onPress} disabled={isNotPressable()}>
                             <ThemedText style={{color: 'white', padding: 10, fontWeight: '500', textAlign: 'center'}}>{renderButtonTitle()}</ThemedText>
                         </Pressable>
                     </View>

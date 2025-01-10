@@ -8,30 +8,28 @@ import { Entypo } from '@expo/vector-icons';
 import { Order, RootStackParamList } from '../../app/types/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 //dummy data format, could be used in production with some minor tweaks
-interface OrderItemProps {
-  order: Order; // This ensures the `order` prop is typed correctly
-}
+import { OrderItemProps } from '../../app/types/types';
 const OrderItem : React.FC<OrderItemProps> = ({order}) => {
   //const navigation = useNavigation();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <Pressable
-    onPress={() => navigation.navigate('OrderDelivery', {id : order.id})}
+    onPress={() => navigation.navigate('OrderDelivery', {order : order})}
     >
 
       <ThemedView style={styles.orderOuter}>
         <ThemedView style={styles.orderInner}>
           <Image source={{uri: order.Restaurant.image}} style={styles.orderImage}></Image>
          
-          <ThemedView style={{marginLeft: 10, flex: 2, paddingVertical: 5}}>
-            <ThemedText type="title">{order.Restaurant.name}</ThemedText>
+          <ThemedView style={{backgroundColor: '#FFFFF5' , marginLeft: 10, flex: 2, paddingVertical: 5}}>
+            <ThemedText style={{ color : '#2d2d2d'}} type="title">{order.Restaurant.name}</ThemedText>
             <ThemedText style={styles.subtext}  type="subtitle">{order.Restaurant.address}</ThemedText>
-            <ThemedText style={{marginTop: 10}} type="subtitle">Delivery Details:</ThemedText>
+            <ThemedText style={{ color : '#2d2d2d', marginTop: 10}} type="subtitle">Delivery Details:</ThemedText>
             <ThemedText style={styles.subtext}  type="subtitle">{order.User.name}</ThemedText>
             <ThemedText style={styles.subtext}  type="subtitle">{order.User.address}</ThemedText>
           </ThemedView>
 
-          <ThemedView style={{padding: 5, backgroundColor: '#3FC060', borderBottomRightRadius: 10, borderTopRightRadius: 10, alignItems : 'center', justifyContent: 'center'}}>
+          <ThemedView style={{padding: 5, backgroundColor: '#80ef80', borderBottomRightRadius: 10, borderTopRightRadius: 10, alignItems : 'center', justifyContent: 'center'}}>
             <Entypo name="check" size={30} color="white" style={{marginLeft: 'auto'}}></Entypo>
           </ThemedView>
 
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
   orderOuter: {
     gap: 8,
     marginBottom: 8,
-    backgroundColor: 'white'
+    backgroundColor: '#C2A9A1'
     
   },
   orderInner : {
@@ -74,6 +72,7 @@ const styles = StyleSheet.create({
     borderWidth : 3,
     borderRadius : 14,
     margin: 10,
+    backgroundColor: '#FFFFF5'
 
 
   }

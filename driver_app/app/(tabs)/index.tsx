@@ -24,7 +24,6 @@ export default function HomeApp() {
     // }>
     
       <View style={styles.Container}>
-        <ThemedText type="title">Driver app</ThemedText>
         <Navigation/>
       </View>
 

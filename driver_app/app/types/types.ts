@@ -34,7 +34,18 @@ export type User = {
 
   export type RootStackParamList = {
     Home: undefined; // Home screen has no params
-    OrderDelivery: { id: string }; // OrderDelivery expects an 'id' parameter of type string
+    OrdersScreen: undefined,
+    OrderDelivery: { order: Order }; // OrderDelivery expects an Order Object parameter of type string
   };
   
   export type OrderArray = Order[];
+
+  export type coordz = {
+    latitude : number,
+    longitude : number
+    }
+    
+
+  export interface OrderItemProps {
+    order: Order; // This ensures the `order` prop is typed correctly
+  }
