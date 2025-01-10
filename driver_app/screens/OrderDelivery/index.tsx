@@ -1,24 +1,38 @@
-import { Image, StyleSheet, Platform, View, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { Image, StyleSheet, Platform, View, useWindowDimensions, ActivityIndicator, Pressable } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Entypo, FontAwesome5, Fontisto, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, FontAwesome5, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
 import orders from '../../assets/data/orders.json';
 import styles from './styles';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
+import { Order } from '@/app/types/types';
+import { useNavigation } from 'expo-router';
 const order = orders[0]
 type coordz = {
 latitude : number,
 longitude : number
 }
+
+//order status enum
+enum ORDER_STATUS {
+    READY_FOR_PICKUP = "READY_FOR_PICKUP",
+    ACCEPTED = "ACCEPTED",
+    PICKED_UP = "PICKED_UP"
+
+}
 const OrderDelivery = () => {
+    const mapRef = useRef<MapView | null>(null);
     const [driverLocation, setDriverLocation] = useState<coordz|null>(null);
     const [totalMin, setTotalMin] = useState(0);
+    const navigation = useNavigation();
     const [totalMiles, setMiles] = useState(0);
+    const [isClose, setIsClose] = useState(false)
+    const [deliveryStatus, setDeliveryStatus] = useState<ORDER_STATUS| null>(ORDER_STATUS.READY_FOR_PICKUP);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ["12%", "95%"], [])
     const {width, height} = useWindowDimensions();
@@ -57,9 +71,58 @@ const OrderDelivery = () => {
         return <ActivityIndicator size={'large'}/>
     }
 
+
+    const renderButtonTitle = () => {
+        if (deliveryStatus === ORDER_STATUS.READY_FOR_PICKUP){
+            return 'Accept Order'
+        }
+        else if (deliveryStatus === ORDER_STATUS.ACCEPTED){
+            return 'Pick Up'
+        }
+        else if (deliveryStatus === ORDER_STATUS.PICKED_UP){
+            return 'Complete delivery'
+        }
+    }
+
+    const isNotPressable = () => {
+        if (deliveryStatus === ORDER_STATUS.READY_FOR_PICKUP){
+            return false;
+        }else if (deliveryStatus === ORDER_STATUS.ACCEPTED && isClose){
+            return false;
+        }else if (deliveryStatus === ORDER_STATUS.PICKED_UP && isClose){
+            return false;
+        }
+        return true;
+    }
+
+    const onPress = () => {
+        //clicking accept order button 
+        if (deliveryStatus === ORDER_STATUS.READY_FOR_PICKUP){
+            bottomSheetRef.current?.collapse();
+            mapRef.current!.animateToRegion({
+                latitude: driverLocation.latitude,
+                longitude: driverLocation.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01
+            })
+            setDeliveryStatus(ORDER_STATUS.ACCEPTED)
+        }
+        else if (deliveryStatus === ORDER_STATUS.ACCEPTED){
+            setDeliveryStatus(ORDER_STATUS.PICKED_UP)
+        }else{
+            bottomSheetRef.current?.collapse();
+            navigation.goBack();
+            console.warn('Delivery Finished')
+            
+        }
+    }
+
     return (
         <View style={{ flex : 1}}>
-            <MapView style ={{
+            <MapView 
+            
+            ref={mapRef}
+            style ={{
                 height,
                 width
                 }}
@@ -75,12 +138,20 @@ const OrderDelivery = () => {
             >
                 <MapViewDirections 
                     origin={driverLocation}
-                    destination={{latitude : order.User.lat, longitude : order.User.lng}}
+                    destination={deliveryStatus === ORDER_STATUS.ACCEPTED? {latitude : order.Restaurant.lat, longitude : order.Restaurant.lng}:
+                    {latitude : order.User.lat, longitude : order.User.lng}}
                     strokeWidth={5}
                     strokeColor='#C2A9A1'
                     apikey={process.env.EXPO_PUBLIC_REACT_APP_GOOGLE_API_KEY as string}
-                    waypoints={[{latitude : order.Restaurant.lat, longitude : order.Restaurant.lng}]}
+                    waypoints={deliveryStatus === ORDER_STATUS.READY_FOR_PICKUP ? 
+                        [{latitude : order.Restaurant.lat, longitude : order.Restaurant.lng}] : []
+                    }
                     onReady={(result) => {
+                        if (result.distance <= 0.1){
+                            setIsClose(true)
+                        }else{
+                            setIsClose(false)
+                        }
                         setTotalMin(result.duration );
                         setMiles(result.distance * 0.621371)
                     }}
@@ -112,6 +183,14 @@ const OrderDelivery = () => {
                     </View>
                 </Marker>
             </MapView>
+            {/* {deliveryStatus ===  ORDER_STATUS.READY_FOR_PICKUP } */}
+            <Ionicons
+                onPress={() => navigation.goBack()}
+                name="arrow-back-circle"
+                size={45}
+                color = 'black'
+                style={{top : 30, left : 0, position: 'absolute'}}
+            ></Ionicons>
             <BottomSheet 
                 handleIndicatorStyle={{backgroundColor : '#C2A9A1', width : 100}} 
                 ref={bottomSheetRef} 
@@ -142,10 +221,11 @@ const OrderDelivery = () => {
                         <ThemedText style={styles.details} >dummy food</ThemedText>
                     </View>
                 </View>
-                <View style={{borderRadius: 15, backgroundColor: "#C2A9A1",marginBottom : 45, marginTop: 'auto', marginVertical: 20, marginHorizontal: 10}}>
-                    <ThemedText style={{color: 'white', padding: 10, fontWeight: '500', textAlign: 'center'}}>Accept Order</ThemedText>
-
-                </View>
+                    <View style={{ borderRadius: 15 , backgroundColor: "#C2A9A1",marginBottom : 45, marginTop: 'auto', marginVertical: 20, marginHorizontal: 10}}>
+                        <Pressable style={{borderRadius: 15, backgroundColor: isNotPressable()? 'grey' : "#C2A9A1"}}onPress={onPress} disabled={isNotPressable()}>
+                            <ThemedText style={{color: 'white', padding: 10, fontWeight: '500', textAlign: 'center'}}>{renderButtonTitle()}</ThemedText>
+                        </Pressable>
+                    </View>
             </BottomSheet>
         </View>
     );
